@@ -5,6 +5,6 @@
   "engines": { "node": ">=18" },
   "dependencies": {
     "@azure/functions": "^4.4.0",
-    "msal-node": "^2.13.2"
+    "msal-node": "^2.12.2"
   }
 }
