@@ -1,7 +1,7 @@
 
 import { app } from "@azure/functions";
 import * as querystring from "node:querystring";
-import msal from "msal-node";
+import msal from "@azure/msal-node";
 
 const { TENANT_ID, CLIENT_ID, CLIENT_SECRET, MAILBOX_ADDRESS } = process.env;
 
