@@ -6,7 +6,13 @@
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title>Schneider Drafting Services — Residential &amp; Commercial Drafting Solutions</title>
     <meta content="Comprehensive drafting services for homeowners, builders, architects, and real estate professionals. Accurate field‑measured plans, as‑builts, and marketing layouts with next‑day options." name="description" />
-    <!-- Open Graph -->
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon.png">
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+    <link rel="icon" href="favicon.ico">
+    <meta name="theme-color" content="#1e61e6">
+<!-- Open Graph -->
     <meta content="Schneider Drafting Services" property="og:title" />
     <meta content="Professional drafting for residential and commercial projects — field‑measured, as‑built, and marketing floor plans." property="og:description" />
     <meta content="website" property="og:type" />
@@ -48,8 +54,26 @@
             scroll-behavior: smooth;
         }
     </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "https://schneiderdrafting.com/#business",
+  "name": "Schneider Drafting Services",
+  "url": "https://schneiderdrafting.com",
+  "email": "mailto:jon@schneiderdrafting.com",
+  "description": "Residential and real-estate drafting services: floor plans, site plans, and marketing-ready drawings.",
+  "areaServed": "North Carolina",
+  "founder": "Jon Moreland Schneider",
+  "sameAs": []
+}
+</script>
 </head>
 <body class="bg-coal-900 text-white antialiased">
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-3 focus:py-2 focus:rounded-md focus:bg-white/90 focus:text-black focus:shadow">
+  Skip to content
+</a>
+<div id="main"></div>
     <div id="top"></div>
     <a class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-white/10 backdrop-blur px-3 py-2 rounded" href="#main">Skip to content</a>
     <!-- Header / Nav -->
@@ -57,7 +81,15 @@
         <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <!-- Optional: replace with your crest mark -->
-                <div class="h-9 w-9 rounded-full bg-jay-600 flex items-center justify-center font-bold">SDS</div>
+                <div class="shrink-0 rounded-full overflow-hidden
+                            w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16
+                            flex items-center justify-center">
+                    <img src="img/logo.png"
+                         alt="Schneider Drafting Services logo"
+                         class="w-full h-full object-contain"
+                         loading="lazy" />
+                </div>
+
                 <div>
                     <span class="block font-semibold leading-tight"><a aria-label="Back to top" class="block" href="#top"><span class="block text-lg font-semibold">Schneider Drafting Services</span><span class="block text-xs text-white/70">Residential • Commercial • Marketing Drafting</span></a></span>
                 </div>
@@ -111,7 +143,7 @@
         </div>
     </section>
     <!-- Services -->
-    <section class="max-w-6xl mx-auto px-4 py-16" id="services">
+    <section class="max-w-6xl mx-auto px-4 py-16 scroll-mt-24 md:scroll-mt-28" id="services">
         <h2 class="text-2xl font-semibold">What we deliver</h2>
         <p class="text-white/70 mt-2 max-w-3xl">Full‑service drafting for homeowners, builders, architects, and realtors. On‑site field measurement, clean marketing plans, and as‑builts you can trust. Rush options available.</p>
         <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -171,7 +203,7 @@
         </div>
     </section>
     <!-- Pricing -->
-    <section class="border-y border-white/10 bg-white/5" id="pricing">
+    <section class="border-y border-white/10 bg-white/5 scroll-mt-24 md:scroll-mt-28" id="pricing">
         <div class="max-w-6xl mx-auto px-4 py-16">
             <h2 class="text-2xl font-semibold">Transparent pricing</h2>
             <p class="text-white/70 mt-2 max-w-3xl">Clear tiers with 9‑ending prices. Volume discounts available for offices/teams.</p>
@@ -218,7 +250,7 @@
         </div>
     </section>    
     <!-- Portfolio / Samples -->
-    <section class="max-w-6xl mx-auto px-4 py-16" id="portfolio">
+    <section class="max-w-6xl mx-auto px-4 py-16 scroll-mt-24 md:scroll-mt-28" id="portfolio">
         <div class="flex items-end justify-between gap-4">
             <div>
                 <h2 class="text-2xl font-semibold">Recent samples</h2>
@@ -237,7 +269,7 @@
         </div>
     </section>
     <!-- About -->
-    <section class="border-y border-white/10 bg-white/5" id="about">
+    <section class="border-y border-white/10 bg-white/5 scroll-mt-24 md:scroll-mt-28" id="about">
         <div class="max-w-6xl mx-auto px-4 py-16 grid md:grid-cols-2 gap-10 items-start">
             <div data-animate="">
                 <h2 class="text-2xl font-semibold">Built by an engineer‑turned‑drafter</h2>
@@ -274,13 +306,13 @@
         </div>
     </section>
     <!-- Contact / Booking CTA -->
-    <section class="max-w-6xl mx-auto px-4 py-16" id="book">
+    <section class="max-w-6xl mx-auto px-4 py-16 scroll-mt-24 md:scroll-mt-28" id="book">
         <div class="grid md:grid-cols-2 gap-10 items-start">
             <div data-animate="">
                 <h2 class="text-2xl font-semibold" id="book-a-scan">Book a scan</h2>
                 <p class="text-white/70 mt-2">Pick a time and share the property address. We’ll confirm scope, price, and turnaround the same day.</p><div class="mt-6 rounded-2xl border border-white/10 overflow-hidden"><iframe loading="lazy" src="https://cal.com/schneiderdrafting?embed=true" style="border:0;width:100%;height:640px"></iframe></div>
             </div>
-            <div data-animate="" id="contact">
+            <div data-animate="" class="scroll-mt-24 md:scroll-mt-28" id="contact">
                 <h2 class="text-2xl font-semibold">Contact</h2>
                 <form action="/api/contact" class="mt-4 grid gap-4" id="contactForm" method="POST" onsubmit="return submitContactForm(event)">
                     <input name="website" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" type="text" />
@@ -377,5 +409,161 @@
         }
     </script>
     <script async="True" src="https://cal.com/embed.js"></script>
+<!-- Mobile Contact Bar -->
+<nav aria-label="Quick contact" class="fixed inset-x-0 bottom-0 z-40 sm:hidden">
+  <div class="mx-auto max-w-7xl px-4 pb-3">
+    <div class="mx-auto grid grid-cols-2 gap-3 rounded-2xl border border-white/10 bg-white/10 backdrop-blur px-3 py-2">
+      <a href="mailto:jon@schneiderdrafting.com?subject=Drafting%20Request&body=Hi%20Jon,%20I%27d%20like%20to%20request%20a%20drafting%20quote%20for..."
+         class="flex items-center justify-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-sm font-medium hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-white/30">
+        <!-- mail icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M20 4H4c-1.1 0-2 .9-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm-1.4 4.25L12 12.01 5.4 8.25a1 1 0 011.2-1.6L12 9.99l5.4-3.34a1 1 0 111.2 1.6z"/>
+        </svg>
+        <span>Email</span>
+      </a>
+      <a href="#contact"
+         class="flex items-center justify-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-sm font-medium hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-white/30">
+        <!-- quote icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z"/>
+        </svg>
+        <span>Request a Quote</span>
+      </a>
+    </div>
+  </div>
+</nav>
+<script>
+/* Sticky header + Scrollspy (progressive enhancement) */
+(function () {
+  const header = document.querySelector('header');
+  const nav = document.querySelector('nav');
+  const links = nav ? Array.from(nav.querySelectorAll('a[href^="#"]')) : [];
+
+  // Sticky header: add classes when page is scrolled
+  const onScroll = () => {
+    if (!header) return;
+    const isScrolled = window.scrollY > 2;
+    header.classList.toggle('sticky', true);
+    header.classList.toggle('top-0', true);
+    header.classList.toggle('z-50', true);
+    header.classList.toggle('backdrop-blur', true);
+    header.classList.toggle('bg-black/30', isScrolled);
+    header.classList.toggle('border-b', isScrolled);
+    header.classList.toggle('border-white/10', isScrolled);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Scrollspy: highlight current section's nav link
+  const sections = Array.from(document.querySelectorAll('section[id], main[id], [data-section]'));
+  const byId = new Map(sections.map(el => [el.id || el.getAttribute('data-section'), el]));
+
+  function setActive(hash) {
+    links.forEach(a => {
+      const active = a.hash === hash;
+      a.setAttribute('aria-current', active ? 'true' : 'false');
+      a.classList.toggle('text-white', active);
+      a.classList.toggle('opacity-100', active);
+      a.classList.toggle('opacity-70', !active);
+    });
+  }
+
+  if ('IntersectionObserver' in window && sections.length && links.length) {
+    const headerH = (document.querySelector('header')?.offsetHeight || 0) + 8;
+  const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const id = entry.target.id || entry.target.getAttribute('data-section');
+        if (entry.isIntersecting && id) {
+          setActive('#' + id);
+        }
+      });
+    }, { rootMargin: `-${headerH}px 0px -55% 0px`, threshold: 0.01 });
+
+    sections.forEach(sec => observer.observe(sec));
+  }
+
+  // Smooth scroll on nav link click (respects reduced motion)
+  links.forEach(a => {
+    a.addEventListener('click', (e) => {
+      const href = a.getAttribute('href');
+      if (!href || !href.startsWith('#')) return;
+      const target = document.querySelector(href);
+      if (!target) return;
+      e.preventDefault();
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const headerH = (document.querySelector('header')?.offsetHeight || 0) + 8;
+      const y = target.getBoundingClientRect().top + window.scrollY - headerH;
+      window.scrollTo({ top: y, behavior: prefersReduced ? 'auto' : 'smooth' });
+      history.replaceState(null, '', href);
+    });
+  });
+})();
+</script>
+<!-- Back-to-Top Button -->
+<button
+  id="toTop"
+  type="button"
+  title="Back to top"
+  aria-label="Back to top"
+  class="fixed bottom-20 sm:bottom-5 right-5 z-[60] hidden items-center justify-center h-12 w-12 rounded-full border border-white/15 bg-white/10 backdrop-blur
+         hover:bg-white/15 hover:border-white/25 focus:outline-none focus:ring-2 focus:ring-white/30"
+>
+  <!-- Up arrow -->
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M12 5l-6.5 6.5 1.4 1.4L11 9.3V20h2V9.3l4.1 3.6 1.4-1.4L12 5z"/>
+  </svg>
+  <span class="sr-only">Back to top</span>
+</button>
+
+<script>
+  (function () {
+    const btn = document.getElementById('toTop');
+    if (!btn) return;
+
+    const SHOW_AT = 300; // px before showing
+
+    const toggle = () => {
+      if (window.scrollY > SHOW_AT) {
+        btn.classList.remove('hidden');
+        btn.classList.add('flex');
+      } else {
+        btn.classList.add('hidden');
+        btn.classList.remove('flex');
+      }
+    };
+
+    btn.addEventListener('click', (e) => {
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const instant = e.shiftKey || prefersReduced;
+      if (instant) {
+        window.scrollTo(0, 0);
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key && e.key.toLowerCase() === 't' && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) {
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' });
+      }
+    });
+
+    window.addEventListener('scroll', toggle, { passive: true });
+    toggle();
+  })();
+</script>
+<script>
+  /* Auto-adjust scroll padding for sticky header */
+  (function () {
+    const setPadding = () => {
+      const header = document.querySelector('header');
+      const h = (header?.offsetHeight || 0) + 8; // breathing room
+      document.documentElement.style.scrollPaddingTop = h + 'px';
+    };
+    setPadding();
+    window.addEventListener('resize', setPadding);
+  })();
+</script>
 </body>
 </html>
