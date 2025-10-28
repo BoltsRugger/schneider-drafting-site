@@ -3,9 +3,9 @@
 
 import { ClientSecretCredential } from "@azure/identity";
 
-// In Node 18+, fetch is global. If you’re on older Node, install node-fetch and import it.
+// --- Helpers ---------------------------------------------------------------
 
-// Utility: parse urlencoded or JSON bodies
+// Parse urlencoded or JSON bodies
 function parseBody(req) {
     const ctype = (req.headers["content-type"] || "").toLowerCase();
     if (ctype.includes("application/x-www-form-urlencoded")) {
@@ -13,11 +13,7 @@ function parseBody(req) {
         return Object.fromEntries(params.entries());
     }
     if (typeof req.body === "object" && req.body) return req.body;
-    try {
-        return JSON.parse(req.rawBody || "{}");
-    } catch {
-        return {};
-    }
+    try { return JSON.parse(req.rawBody || "{}"); } catch { return {}; }
 }
 
 // Basic HTML escape
@@ -29,13 +25,27 @@ function esc(s = "") {
         .replaceAll('"', "&quot;");
 }
 
-export default async function (context, req) {
-    try {
-        const data = parseBody(req);
+// Simple maskers for logs
+const mask = v => (v ? "✓" : "✗");
+const maskEmail = v => (v ? v.replace(/^(.).+(@.+)$/, "$1***$2") : "(missing)");
 
-        // Honeypot (matches your hidden input name)
+// --- Function --------------------------------------------------------------
+
+export default async function (context, req) {
+    const rid = context.invocationId || "n/a"; // request id for correlation
+    try {
+        // 1) Parse + basic validation ------------------------------------------------
+        const data = parseBody(req);
+        context.log(`[contact] [${rid}] received`, {
+            hasBody: !!data,
+            ctype: req.headers["content-type"] || "(none)"
+        });
+
+        // Honeypot (matches hidden input name)
         if (data.website) {
-            return context.res = { status: 200, jsonBody: { ok: true, message: "Thanks!" } };
+            context.log(`[contact] [${rid}] honeypot tripped; returning 200 silently`);
+            context.res = { status: 200, jsonBody: { ok: true, message: "Thanks!" } };
+            return;
         }
 
         const name = (data.name || "").trim();
@@ -44,40 +54,52 @@ export default async function (context, req) {
         const message = (data.message || "").trim();
 
         if (!name || !email || !message) {
-            return context.res = {
-                status: 400,
-                jsonBody: { ok: false, message: "Please include name, email, and message." }
-            };
+            context.log.warn(`[contact] [${rid}] missing required fields`, {
+                name: !!name, email: !!email, message: !!message
+            });
+            context.res = { status: 400, jsonBody: { ok: false, message: "Please include name, email, and message." } };
+            return;
         }
-
-        // Optional: simple length guard
         if (message.length > 5000) {
-            return context.res = {
-                status: 400,
-                jsonBody: { ok: false, message: "Message is too long." }
-            };
+            context.log.warn(`[contact] [${rid}] message too long`, { len: message.length });
+            context.res = { status: 400, jsonBody: { ok: false, message: "Message is too long." } };
+            return;
         }
 
-        // Env vars (configure in Azure → your SWA → Environment variables)
+        // 2) Env vars (your current names). Log presence, not values ---------------
         const tenantId = process.env.TENANT_ID;
         const clientId = process.env.CLIENT_ID;
         const clientSecret = process.env.CLIENT_SECRET;
-        const fromUser = process.env.MAILBOX_ADDRESS; // e.g. "jon@schneiderdrafting.com" or a userId (GUID)
+        const fromUser = process.env.MAILBOX_ADDRESS; // required: user/shared mailbox UPN
         const toAddress = process.env.MAILBOX_ADDRESS || "jon@schneiderdrafting.com";
 
+        context.log(`[contact] [${rid}] env check`, {
+            tenantId: mask(tenantId),
+            clientId: mask(clientId),
+            clientSecret: mask(clientSecret),
+            fromUser: maskEmail(fromUser),
+            toAddress: maskEmail(toAddress)
+        });
+
         if (!tenantId || !clientId || !clientSecret || !fromUser) {
-            context.log.error("Missing Graph env vars.");
-            return context.res = {
-                status: 500,
-                jsonBody: { ok: false, message: "Mail service not configured." }
-            };
+            context.log.error(`[contact] [${rid}] missing Graph env vars`);
+            context.res = { status: 500, jsonBody: { ok: false, message: "Mail service not configured." } };
+            return;
         }
 
+        // 3) Token acquisition -------------------------------------------------------
         const credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
-        const token = await credential.getToken("https://graph.microsoft.com/.default");
-        if (!token?.token) throw new Error("Failed to acquire Graph token");
+        let token;
+        try {
+            token = await credential.getToken("https://graph.microsoft.com/.default");
+            context.log(`[contact] [${rid}] token acquired`);
+        } catch (e) {
+            context.log.error(`[contact] [${rid}] token error`, e?.message || e);
+            throw e;
+        }
+        if (!token?.token) throw new Error("No Graph token acquired");
 
-        // Build email (HTML + a text-ish fallback inside)
+        // 4) Build the mail ----------------------------------------------------------
         const html = `
       <div style="font-family:Segoe UI,Arial,sans-serif;font-size:14px;">
         <h2 style="margin:0 0 8px;">New Contact — Schneider Drafting Services</h2>
@@ -99,8 +121,11 @@ export default async function (context, req) {
             saveToSentItems: true
         };
 
-        // Send as the configured user/shared mailbox
-        const resp = await fetch(`https://graph.microsoft.com/v1.0/users/${encodeURIComponent(fromUser)}/sendMail`, {
+        // 5) Send via Graph ----------------------------------------------------------
+        const url = `https://graph.microsoft.com/v1.0/users/${encodeURIComponent(fromUser)}/sendMail`;
+        context.log(`[contact] [${rid}] sending via Graph`, { url, fromUser: maskEmail(fromUser) });
+
+        const resp = await fetch(url, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${token.token}`,
@@ -110,17 +135,17 @@ export default async function (context, req) {
         });
 
         if (!resp.ok) {
-            const text = await resp.text();
-            context.log.error("Graph sendMail failed:", resp.status, text);
-            throw new Error("Email send failed.");
+            const text = await resp.text().catch(() => "");
+            context.log.error(`[contact] [${rid}] Graph sendMail failed`, resp.status, text);
+            throw new Error(`Graph sendMail ${resp.status}`);
         }
 
-        context.res = {
-            status: 200,
-            jsonBody: { ok: true, message: "Thanks! Your message has been sent." }
-        };
+        context.log(`[contact] [${rid}] sendMail OK`);
+        context.res = { status: 200, jsonBody: { ok: true, message: "Thanks! Your message has been sent." } };
+
     } catch (err) {
-        context.log.error(err);
+        // Final catch-all
+        context.log.error(`[contact] [${rid}] unhandled`, err?.message || err);
         context.res = {
             status: 500,
             jsonBody: { ok: false, message: "Send failed. Please email jon@schneiderdrafting.com." }
