@@ -1,10 +1,8 @@
 {
-  "name": "azure-contact-function",
+  "name": "sds-api",
   "version": "1.0.0",
   "type": "module",
-  "engines": { "node": ">=18" },
   "dependencies": {
-    "@azure/functions": "^4.4.0",
-    "@azure/msal-node": "^3.7.4"
+    "@azure/identity": "^4.4.0"
   }
 }
